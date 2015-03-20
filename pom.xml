@@ -16,6 +16,12 @@
         <module>javafxspring-gui</module>
     </modules>
 
+    <scm>
+        <connection>scm:git:https://github.com/kamkie/javafxSpring</connection>
+        <url>https://github.com/kamkie/javafxSpring</url>
+        <tag>HEAD</tag>
+    </scm>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
@@ -74,16 +80,6 @@
                     <artifactId>exec-maven-plugin</artifactId>
                     <version>1.3.2</version>
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-pmd-plugin</artifactId>
-                    <version>3.3</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>findbugs-maven-plugin</artifactId>
-                    <version>3.0.0</version>
-                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -119,39 +115,6 @@
                     <shortRevisionLength>8</shortRevisionLength>
                     <doCheck>false</doCheck>
                     <doUpdate>false</doUpdate>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>check</goal>
-                            <goal>cpd-check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <effort>Max</effort>
-                    <!-- Reports all bugs (other values are medium and max) -->
-                    <threshold>Medium</threshold>
-                    <xmlOutput>true</xmlOutput>
                 </configuration>
             </plugin>
         </plugins>
