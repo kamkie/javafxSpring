@@ -1,0 +1,19 @@
+spring:
+  jmx:
+    enabled: true
+  application:
+    name: javafxspring-backend
+    version: ${pom.version}
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost/test
+    username: root
+    password: root
+management:
+  context-path: /admin
+info:
+  os: ${os.name}
+  name: ${spring.application.name}
+  version: ${project.version}
+server:
+  port: 8080

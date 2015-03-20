@@ -17,7 +17,11 @@
     </modules>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
         <spring.boot.version>1.2.2.RELEASE</spring.boot.version>
+        <spring.loaded.version>1.2.1.RELEASE</spring.loaded.version>
+        <lombok.version>1.16.2</lombok.version>
     </properties>
 
     <dependencyManagement>
@@ -31,9 +35,15 @@
             </dependency>
 
             <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>springloaded</artifactId>
+                <version>${spring.loaded.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.16.2</version>
+                <version>${lombok.version}</version>
             </dependency>
 
         </dependencies>
@@ -82,6 +92,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
