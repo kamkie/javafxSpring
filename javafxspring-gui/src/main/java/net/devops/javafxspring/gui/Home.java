@@ -1,14 +1,18 @@
 package net.devops.javafxspring.gui;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.application.Platform;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
+import net.devops.javafxspring.gui.config.AppConfig;
+import net.devops.javafxspring.gui.config.ScreensConfig;
+import net.devops.javafxspring.gui.model.LanguageModel;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
-import java.net.URL;
 
+@Slf4j
 public class Home extends Application {
 
     public static void main(String[] args) {
@@ -17,11 +21,17 @@ public class Home extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        URL resource = getClass().getClassLoader().getResource("sample.fxml");
-        assert resource != null;
-        Parent root = FXMLLoader.load(resource);
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
+        log.info("Starting application");
+
+        Platform.setImplicitExit(true);
+
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        ScreensConfig screens = context.getBean(ScreensConfig.class);
+        LanguageModel lang = context.getBean(LanguageModel.class);
+
+        screens.setLangModel(lang);
+        screens.setPrimaryStage(primaryStage);
+        screens.showMainScreen();
+        screens.loadFirst();
     }
 }
