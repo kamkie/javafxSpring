@@ -10,7 +10,9 @@ import net.devops.javafxspring.gui.config.ScreensConfig;
 import net.devops.javafxspring.gui.controller.LanguageController;
 import net.devops.javafxspring.gui.model.LanguageModel.Language;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.web.client.AsyncRestTemplate;
 
 @Slf4j
 public class FirstPresentation extends Presentation {
@@ -28,14 +30,21 @@ public class FirstPresentation extends Presentation {
     private LanguageController langCtr;
 
     @Autowired
-    RestTemplate restTemplate;
+    AsyncRestTemplate restTemplate;
 
     @FXML
     void nextView(ActionEvent event) {
-        User[] users = restTemplate.getForObject("http://localhost:8080/home/userList", User[].class);
-        for (User user : users) {
-            log.info(user.toString());
-        }
+        ListenableFuture<ResponseEntity<User[]>> usersFuture = restTemplate.getForEntity("http://localhost:8080/home/userList", User[].class);
+        usersFuture.addCallback(result -> {
+            log.info("success getting users");
+            User[] users = result.getBody();
+            for (User user : users) {
+                log.info(user.toString());
+            }
+        }, ex -> {
+            log.error("error getting users", ex);
+        });
+
         config.loadSecond();
     }
 

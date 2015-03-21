@@ -5,6 +5,7 @@ import net.devops.javafxspring.gui.model.LanguageModel;
 import net.devops.javafxspring.gui.model.MessageModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -23,6 +24,11 @@ public class AppConfig {
     @Bean
     MessageModel messageModel() {
         return new MessageModel();
+    }
+
+    @Bean
+    AsyncRestTemplate asyncRestTemplate() {
+        return new AsyncRestTemplate();
     }
 
     @Bean

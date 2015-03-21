@@ -119,7 +119,7 @@ public class ScreensConfig implements Observer {
         loader.setControllerFactory(aClass -> control);
 
         try {
-            return (Node) loader.load();
+            return loader.load();
         } catch (Exception e) {
             log.error("Error casting node", e);
             return null;
