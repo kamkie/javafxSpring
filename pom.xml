@@ -28,6 +28,7 @@
         <spring.boot.version>1.2.2.RELEASE</spring.boot.version>
         <spring.loaded.version>1.2.1.RELEASE</spring.loaded.version>
         <lombok.version>1.16.2</lombok.version>
+        <rest-assured.version>2.4.0</rest-assured.version>
     </properties>
 
     <dependencyManagement>
@@ -52,6 +53,11 @@
                 <version>${lombok.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.jayway.restassured</groupId>
+                <artifactId>rest-assured</artifactId>
+                <version>${rest-assured.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.devops.javafxspring.backend.converter.LocalDateTimePersistenceConverter;
+import net.devops.javafxspring.backend.converter.ZonedDateTimePersistenceConverter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Data
 @Builder
@@ -38,4 +39,22 @@ public class User {
 
     @Column(nullable = false)
     private Long socialNumber;
+
+    @Column(nullable = false)
+    private boolean isActive;
+
+    @Column(nullable = false)
+    private boolean isAdmin;
+
+    @Column(nullable = true)
+    private Long activationHash;
+
+    @Column(nullable = false)
+    @Convert(converter = LocalDateTimePersistenceConverter.class)
+    private LocalDateTime created;
+
+    @Column(nullable = false)
+    @Convert(converter = ZonedDateTimePersistenceConverter.class)
+    private ZonedDateTime createdZone;
+
 }

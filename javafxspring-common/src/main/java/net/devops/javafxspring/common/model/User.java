@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,5 +21,10 @@ public class User {
     private String lastName;
     private String role;
     private Long socialNumber;
+    private boolean isActive;
+    private boolean isAdmin;
+    private Long activationHash;
+    private LocalDateTime created;
+    private ZonedDateTime createdZone;
 
 }
