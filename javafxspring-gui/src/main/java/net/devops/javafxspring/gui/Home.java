@@ -37,4 +37,11 @@ public class Home extends Application {
         screens.showMainScreen();
         screens.loadFirst();
     }
+
+    @Override
+    public void stop() throws Exception {
+        log.info("Stopping application");
+        super.stop();
+    }
+
 }

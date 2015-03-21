@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import net.devops.javafxspring.gui.controls.*;
 import net.devops.javafxspring.gui.model.LanguageModel;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -26,6 +27,9 @@ public class ScreensConfig implements Observer {
     public static final int WIDTH = 480;
     public static final int HEIGHT = 320;
     public static final String STYLE_FILE = "style/main.css";
+
+    @Value("${spring.application.name}")
+    private String title;
 
     private Stage stage;
     private Scene scene;
@@ -52,14 +56,14 @@ public class ScreensConfig implements Observer {
         root = new StackPane();
         root.getStylesheets().add(STYLE_FILE);
         root.getStyleClass().add("main-window");
-        stage.setTitle("SpringFX");
+        stage.setTitle(title);
         scene = new Scene(root, WIDTH, HEIGHT);
         stage.setScene(scene);
         stage.setResizable(false);
 
         stage.setOnHiding(event -> {
+            // add code to open an "are you sure you want to exit?" dialog
             System.exit(0);
-            // TODO you could add code to open an "are you sure you want to exit?" dialog
         });
 
         stage.show();

@@ -2,13 +2,11 @@ package net.devops.javafxspring.gui.controls;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
-import javafx.util.Callback;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -31,13 +29,9 @@ public class ModalDialog extends Stage {
         FXMLLoader loader = new FXMLLoader(fxml);
         loader.setResources(bundle);
         try {
-            loader.setControllerFactory(new Callback<Class<?>, Object>() {
-                public Object call(Class<?> aClass) {
-                    return controller;
-                }
-            });
+            loader.setControllerFactory(aClass -> controller);
             controller.setDialog(this);
-            scene = new Scene((Parent) loader.load());
+            scene = new Scene(loader.load());
             setScene(scene);
         } catch (IOException e) {
             log.error("Error loading modal class", e);

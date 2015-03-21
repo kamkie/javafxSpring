@@ -35,23 +35,23 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.zenjava</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
-                            <goal>jar</goal>
-                            <!--<goal>web</goal>-->
-                            <!--<goal>native</goal>-->
+                            <goal>repackage</goal>
                         </goals>
                     </execution>
                 </executions>
-
-                <configuration>
-                    <vendor>DevOps Solutions</vendor>
-                    <mainClass>net.devops.javafxspring.gui.Home</mainClass>
-                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>springloaded</artifactId>
+                        <version>${spring.loaded.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
