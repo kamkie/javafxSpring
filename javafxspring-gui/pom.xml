@@ -11,5 +11,35 @@
 
     <artifactId>javafxspring-gui</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>net.devops</groupId>
+            <artifactId>javafxspring-common</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                            <!--<goal>web</goal>-->
+                            <!--<goal>native</goal>-->
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <vendor>DevOps Solutions</vendor>
+                    <mainClass>net.devops.javafxspring.gui.Home</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
