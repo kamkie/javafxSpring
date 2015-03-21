@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @Import(ScreensConfig.class)
 public class AppConfig {
+
     @Bean
     LanguageModel languageModel() {
         return new LanguageModel();
@@ -30,4 +31,5 @@ public class AppConfig {
     RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
 }

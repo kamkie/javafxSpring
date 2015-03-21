@@ -4,18 +4,22 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import net.devops.javafxspring.gui.config.AppConfig;
 import net.devops.javafxspring.gui.config.ScreensConfig;
 import net.devops.javafxspring.gui.model.LanguageModel;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
 
 @Slf4j
+@SpringBootApplication
 public class Home extends Application {
 
+    static ApplicationContext applicationContext;
+
     public static void main(String[] args) {
+        applicationContext = SpringApplication.run(Home.class, args);
         launch(args);
     }
 
@@ -25,9 +29,8 @@ public class Home extends Application {
 
         Platform.setImplicitExit(true);
 
-        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        ScreensConfig screens = context.getBean(ScreensConfig.class);
-        LanguageModel lang = context.getBean(LanguageModel.class);
+        ScreensConfig screens = applicationContext.getBean(ScreensConfig.class);
+        LanguageModel lang = applicationContext.getBean(LanguageModel.class);
 
         screens.setLangModel(lang);
         screens.setPrimaryStage(primaryStage);

@@ -1,0 +1,6 @@
+spring:
+  jmx:
+    enabled: true
+  application:
+    name: javafxspring-gui
+    version: ${pom.version}

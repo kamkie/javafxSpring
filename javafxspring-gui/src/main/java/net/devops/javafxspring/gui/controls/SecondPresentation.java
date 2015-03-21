@@ -7,9 +7,6 @@ import net.devops.javafxspring.gui.config.ScreensConfig;
 import net.devops.javafxspring.gui.model.MessageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Observable;
-import java.util.Observer;
-
 public class SecondPresentation extends Presentation {
 
 	public SecondPresentation(ScreensConfig config) {
@@ -26,12 +23,7 @@ public class SecondPresentation extends Presentation {
 	void initialize() {
 		messageTf.setText(model.getMessage());
 		
-		model.addObserver(new Observer() {
-			
-			public void update(Observable o, Object arg) {
-				messageTf.setText(model.getMessage());
-			}
-		});
+		model.addObserver((o, arg) -> messageTf.setText(model.getMessage()));
 	}
 	
 	@FXML 
