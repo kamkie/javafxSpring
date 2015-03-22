@@ -17,8 +17,8 @@ public class AppConfig {
     }
 
     @Bean
-    LanguageController languageController() {
-        return new LanguageController(languageModel());
+    LanguageController languageController(LanguageModel languageModel) {
+        return new LanguageController(languageModel);
     }
 
     @Bean

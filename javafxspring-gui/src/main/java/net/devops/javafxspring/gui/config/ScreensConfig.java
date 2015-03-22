@@ -39,7 +39,7 @@ public class ScreensConfig implements Observer {
     private String title;
 
     @Autowired
-    ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     private Stage stage;
     private Scene scene;

@@ -19,20 +19,20 @@ public class PopupControl implements Control {
     private MessageModel model;
 
     @FXML
-    TextField messageTf;
+    public TextField messageTf;
 
     @FXML
-    void initialize() {
+    public void initialize() {
         messageTf.setText(model.getMessage());
     }
 
     @FXML
-    void clickedOk(ActionEvent event) {
+    public void clickedOk(ActionEvent event) {
         stage.close();
     }
 
     @FXML
-    void onApply(ActionEvent event) {
+    public void onApply(ActionEvent event) {
         model.setMessage(messageTf.getText());
     }
 

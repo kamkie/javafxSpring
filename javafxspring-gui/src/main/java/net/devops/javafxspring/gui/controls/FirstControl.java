@@ -18,21 +18,21 @@ import org.springframework.web.client.AsyncRestTemplate;
 public class FirstControl implements Control {
 
     @Autowired
-    ScreensConfig config;
+    private ScreensConfig config;
 
     @Autowired
     private LanguageController langCtr;
 
     @Autowired
-    AsyncRestTemplate restTemplate;
+    private AsyncRestTemplate restTemplate;
 
     @FXML
-    RadioButton engRadio, romRadio;
+    public RadioButton engRadio, romRadio;
     @FXML
-    ToggleGroup langGroup;
+    public ToggleGroup langGroup;
 
     @FXML
-    void nextView(ActionEvent event) {
+    public void nextView(ActionEvent event) {
         ListenableFuture<ResponseEntity<User[]>> usersFuture = restTemplate.getForEntity("http://localhost:8080/home/userList", User[].class);
         usersFuture.addCallback(result -> {
             log.info("success getting users");
@@ -48,7 +48,7 @@ public class FirstControl implements Control {
     }
 
     @FXML
-    void initialize() {
+    public void initialize() {
         if (Language.RO.equals(langCtr.getLanguage())) {
             engRadio.setSelected(false);
             romRadio.setSelected(true);

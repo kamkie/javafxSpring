@@ -9,36 +9,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class SecondControl implements Control {
 
-	@Autowired
-	ScreensConfig config;
+    @Autowired
+    private ScreensConfig config;
 
-	@Autowired
-	private MessageModel model;
-	
-	@FXML
-	TextField messageTf;
-	
-	@FXML
-	void initialize() {
-		messageTf.setText(model.getMessage());
-		
-		model.addObserver((o, arg) -> messageTf.setText(model.getMessage()));
-	}
-	
-	@FXML 
-	void onApply(ActionEvent event){
-		model.setMessage(messageTf.getText());
-	}
-	
-	@FXML
-	void prevView(ActionEvent event){
-		config.loadFirst();
-	}
-	
-	@FXML 
-	void openPopup(ActionEvent event){
-		config.loadPopup();
-	}
-	
+    @Autowired
+    private MessageModel model;
+
+    @FXML
+    public TextField messageTf;
+
+    @FXML
+    public void initialize() {
+        messageTf.setText(model.getMessage());
+
+        model.addObserver((o, arg) -> messageTf.setText(model.getMessage()));
+    }
+
+    @FXML
+    public void onApply(ActionEvent event) {
+        model.setMessage(messageTf.getText());
+    }
+
+    @FXML
+    public void prevView(ActionEvent event) {
+        config.loadFirst();
+    }
+
+    @FXML
+    public void openPopup(ActionEvent event) {
+        config.loadPopup();
+    }
+
 
 }
