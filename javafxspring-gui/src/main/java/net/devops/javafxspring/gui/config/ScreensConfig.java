@@ -4,20 +4,27 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import lombok.extern.slf4j.Slf4j;
-import net.devops.javafxspring.gui.controls.*;
+import net.devops.javafxspring.gui.controls.Control;
+import net.devops.javafxspring.gui.controls.FirstControl;
+import net.devops.javafxspring.gui.controls.PopupControl;
+import net.devops.javafxspring.gui.controls.SecondControl;
 import net.devops.javafxspring.gui.model.LanguageModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.ResourceBundle;
 
 @Configuration
 @Lazy
@@ -31,10 +38,14 @@ public class ScreensConfig implements Observer {
     @Value("${spring.application.name}")
     private String title;
 
+    @Autowired
+    ApplicationContext applicationContext;
+
     private Stage stage;
     private Scene scene;
     private LanguageModel lang;
     private StackPane root;
+    private final ClassLoader classLoader = getClass().getClassLoader();
 
     public void setPrimaryStage(Stage primaryStage) {
         this.stage = primaryStage;
@@ -46,10 +57,6 @@ public class ScreensConfig implements Observer {
         }
         lang.addObserver(this);
         this.lang = lang;
-    }
-
-    public ResourceBundle getBundle() {
-        return lang.getBundle();
     }
 
     public void showMainScreen() {
@@ -82,39 +89,36 @@ public class ScreensConfig implements Observer {
     }
 
     public void loadFirst() {
-        setNode(getNode(firstPresentation(), getClass().getClassLoader().getResource("views/First.fxml")));
+        setNode(getNode(applicationContext.getBean(FirstControl.class), classLoader.getResource("views/First.fxml")));
     }
 
     public void loadSecond() {
-        setNode(getNode(secondPresentation(), getClass().getClassLoader().getResource("views/Second.fxml")));
+        setNode(getNode(applicationContext.getBean(SecondControl.class), classLoader.getResource("views/Second.fxml")));
     }
 
     public void loadPopup() {
-        ModalDialog modal = new ModalDialog(popupPresentation(), getClass().getClassLoader().getResource("views/Popup.fxml"), stage.getOwner(), lang.getBundle());
-        modal.setTitle(lang.getBundle().getString("popup.title"));
-        modal.getStyleSheets().add(STYLE_FILE);
-        modal.show();
+        showPopup(applicationContext.getBean(PopupControl.class), classLoader.getResource("views/Popup.fxml"));
     }
 
     @Bean
     @Scope("prototype")
-    FirstPresentation firstPresentation() {
-        return new FirstPresentation(this);
+    FirstControl firstPresentation() {
+        return new FirstControl();
     }
 
     @Bean
     @Scope("prototype")
-    SecondPresentation secondPresentation() {
-        return new SecondPresentation(this);
+    SecondControl secondPresentation() {
+        return new SecondControl();
     }
 
     @Bean
     @Scope("prototype")
-    PopupPresentation popupPresentation() {
-        return new PopupPresentation(this);
+    PopupControl popupPresentation() {
+        return new PopupControl();
     }
 
-    private Node getNode(final Presentation control, URL location) {
+    private Node getNode(final Control control, URL location) {
         FXMLLoader loader = new FXMLLoader(location, lang.getBundle());
         loader.setControllerFactory(aClass -> control);
 
@@ -126,8 +130,28 @@ public class ScreensConfig implements Observer {
         }
     }
 
-    public Stage getStage() {
-        return stage;
+    private void showPopup(final PopupControl control, URL location) {
+        FXMLLoader loader = new FXMLLoader(location, lang.getBundle());
+        loader.setControllerFactory(aClass -> control);
+
+        Stage popupStage = new Stage();
+        control.setStage(popupStage);
+
+        popupStage.setTitle(lang.getBundle().getString("popup.title"));
+        popupStage.initStyle(StageStyle.DECORATED);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+
+        Scene scene;
+        try {
+            scene = new Scene(loader.load());
+        } catch (IOException e) {
+            log.error("unable to load fxml", e);
+            throw new RuntimeException(e);
+        }
+        scene.getStylesheets().add(STYLE_FILE);
+
+        popupStage.setScene(scene);
+        popupStage.show();
     }
 
     public void update(Observable o, Object arg) {

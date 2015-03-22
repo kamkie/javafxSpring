@@ -7,12 +7,11 @@ import net.devops.javafxspring.gui.config.ScreensConfig;
 import net.devops.javafxspring.gui.model.MessageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class SecondPresentation extends Presentation {
+public class SecondControl implements Control {
 
-	public SecondPresentation(ScreensConfig config) {
-		super(config);
-	}
-	
+	@Autowired
+	ScreensConfig config;
+
 	@Autowired
 	private MessageModel model;
 	

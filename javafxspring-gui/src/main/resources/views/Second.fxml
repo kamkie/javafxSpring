@@ -7,7 +7,7 @@
 <?scenebuilder-preview-i18n-resource ../lang_en.properties ?>
 <?scenebuilder-stylesheet ../style/main.css?>
 
-<StackPane fx:id="root" maxHeight="-1.0" maxWidth="-1.0" prefHeight="394.0" prefWidth="594.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.devops.javafxspring.gui.controls.SecondPresentation">
+<StackPane fx:id="root" maxHeight="-1.0" maxWidth="-1.0" prefHeight="394.0" prefWidth="594.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.devops.javafxspring.gui.controls.SecondControl">
   <children>
     <VBox alignment="CENTER" prefHeight="-1.0" prefWidth="-1.0" spacing="10.0" StackPane.alignment="CENTER">
       <children>

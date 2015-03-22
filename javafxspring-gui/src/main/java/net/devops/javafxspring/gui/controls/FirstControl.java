@@ -15,22 +15,21 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.client.AsyncRestTemplate;
 
 @Slf4j
-public class FirstPresentation extends Presentation {
+public class FirstControl implements Control {
 
-    public FirstPresentation(ScreensConfig config) {
-        super(config);
-    }
-
-    @FXML
-    RadioButton engRadio, romRadio;
-    @FXML
-    ToggleGroup langGroup;
+    @Autowired
+    ScreensConfig config;
 
     @Autowired
     private LanguageController langCtr;
 
     @Autowired
     AsyncRestTemplate restTemplate;
+
+    @FXML
+    RadioButton engRadio, romRadio;
+    @FXML
+    ToggleGroup langGroup;
 
     @FXML
     void nextView(ActionEvent event) {
