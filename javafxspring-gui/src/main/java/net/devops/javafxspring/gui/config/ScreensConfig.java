@@ -146,7 +146,7 @@ public class ScreensConfig implements Observer {
             scene = new Scene(loader.load());
         } catch (IOException e) {
             log.error("unable to load fxml", e);
-            throw new RuntimeException(e);
+            return;
         }
         scene.getStylesheets().add(STYLE_FILE);
 
