@@ -1,12 +1,15 @@
-package net.devops.javafxspring.gui.model;
+package net.devops.javafxspring.gui.viewmodel;
+
+import org.springframework.stereotype.Component;
 
 import java.util.Observable;
 
-public class MessageModel extends Observable {
+@Component
+public class MessageViewModel extends Observable {
 
     private String message;
 
-    public MessageModel() {
+    public MessageViewModel() {
         setMessage("Default Message!");
     }
 

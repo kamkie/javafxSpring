@@ -1,14 +1,16 @@
-package net.devops.javafxspring.gui.controls;
+package net.devops.javafxspring.gui.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import net.devops.javafxspring.gui.config.ScreensConfig;
-import net.devops.javafxspring.gui.model.MessageModel;
+import net.devops.javafxspring.gui.viewmodel.MessageViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class PopupControl implements Control {
+@Component
+public class PopupController implements Controller {
 
     private Stage stage;
 
@@ -16,7 +18,7 @@ public class PopupControl implements Control {
     private ScreensConfig screensConfig;
 
     @Autowired
-    private MessageModel model;
+    private MessageViewModel model;
 
     @FXML
     public TextField messageTf;

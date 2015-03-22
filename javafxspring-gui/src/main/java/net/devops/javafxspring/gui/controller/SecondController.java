@@ -1,19 +1,21 @@
-package net.devops.javafxspring.gui.controls;
+package net.devops.javafxspring.gui.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import net.devops.javafxspring.gui.config.ScreensConfig;
-import net.devops.javafxspring.gui.model.MessageModel;
+import net.devops.javafxspring.gui.viewmodel.MessageViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class SecondControl implements Control {
+@Component
+public class SecondController implements Controller {
 
     @Autowired
     private ScreensConfig config;
 
     @Autowired
-    private MessageModel model;
+    private MessageViewModel model;
 
     @FXML
     public TextField messageTf;

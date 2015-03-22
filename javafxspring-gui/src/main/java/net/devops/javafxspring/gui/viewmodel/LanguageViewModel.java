@@ -1,15 +1,18 @@
-package net.devops.javafxspring.gui.model;
+package net.devops.javafxspring.gui.viewmodel;
+
+import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
-public class LanguageModel extends Observable {
+@Component
+public class LanguageViewModel extends Observable {
 
     private ResourceBundle bundle;
     private Language lang;
 
-    public LanguageModel() {
+    public LanguageViewModel() {
         setBundle(Language.EN);
     }
 
@@ -22,7 +25,7 @@ public class LanguageModel extends Observable {
             return;
         }
         setLanguage(lang);
-        bundle = ResourceBundle.getBundle("lang", new Locale(lang.getValue(), lang.toString()));
+        bundle = ResourceBundle.getBundle("lang/lang", new Locale(lang.getValue(), lang.toString()));
         setChanged();
         notifyObservers();
     }
@@ -36,8 +39,8 @@ public class LanguageModel extends Observable {
     }
 
     public enum Language {
-
-        EN("en"), RO("ro");
+        EN("en"),
+        RO("ro");
 
         private String value;
 

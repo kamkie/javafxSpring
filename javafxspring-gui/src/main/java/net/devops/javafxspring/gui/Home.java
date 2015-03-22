@@ -5,18 +5,20 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import net.devops.javafxspring.gui.config.ScreensConfig;
-import net.devops.javafxspring.gui.model.LanguageModel;
+import net.devops.javafxspring.gui.viewmodel.LanguageViewModel;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.io.IOException;
 
 @Slf4j
+@ComponentScan
 @SpringBootApplication
 public class Home extends Application {
 
-    static ApplicationContext applicationContext;
+    private static ApplicationContext applicationContext;
 
     public static void main(String[] args) {
         applicationContext = SpringApplication.run(Home.class, args);
@@ -29,13 +31,13 @@ public class Home extends Application {
 
         Platform.setImplicitExit(true);
 
-        ScreensConfig screens = applicationContext.getBean(ScreensConfig.class);
-        LanguageModel lang = applicationContext.getBean(LanguageModel.class);
+        ScreensConfig screensConfig = applicationContext.getBean(ScreensConfig.class);
+        LanguageViewModel languageViewModel = applicationContext.getBean(LanguageViewModel.class);
 
-        screens.setLangModel(lang);
-        screens.setPrimaryStage(primaryStage);
-        screens.showMainScreen();
-        screens.loadFirst();
+        screensConfig.setLangModel(languageViewModel);
+        screensConfig.setPrimaryStage(primaryStage);
+        screensConfig.showMainScreen();
+        screensConfig.loadFirst();
     }
 
     @Override

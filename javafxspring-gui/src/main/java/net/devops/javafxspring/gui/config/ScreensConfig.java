@@ -8,42 +8,42 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.extern.slf4j.Slf4j;
-import net.devops.javafxspring.gui.controls.Control;
-import net.devops.javafxspring.gui.controls.FirstControl;
-import net.devops.javafxspring.gui.controls.PopupControl;
-import net.devops.javafxspring.gui.controls.SecondControl;
-import net.devops.javafxspring.gui.model.LanguageModel;
+import net.devops.javafxspring.gui.controller.Controller;
+import net.devops.javafxspring.gui.controller.FirstController;
+import net.devops.javafxspring.gui.controller.PopupController;
+import net.devops.javafxspring.gui.controller.SecondController;
+import net.devops.javafxspring.gui.viewmodel.LanguageViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 
-@Configuration
-@Lazy
 @Slf4j
+@Component
 public class ScreensConfig implements Observer {
 
     public static final int WIDTH = 480;
     public static final int HEIGHT = 320;
-    public static final String STYLE_FILE = "style/main.css";
 
     @Value("${spring.application.name}")
     private String title;
 
     @Autowired
-    private ApplicationContext applicationContext;
+    FirstController firstControl;
+
+    @Autowired
+    SecondController secondControl;
+
+    @Autowired
+    PopupController popupControl;
 
     private Stage stage;
     private Scene scene;
-    private LanguageModel lang;
+    private LanguageViewModel lang;
     private StackPane root;
     private final ClassLoader classLoader = getClass().getClassLoader();
 
@@ -51,7 +51,7 @@ public class ScreensConfig implements Observer {
         this.stage = primaryStage;
     }
 
-    public void setLangModel(LanguageModel lang) {
+    public void setLangModel(LanguageViewModel lang) {
         if (this.lang != null) {
             this.lang.deleteObserver(this);
         }
@@ -61,8 +61,6 @@ public class ScreensConfig implements Observer {
 
     public void showMainScreen() {
         root = new StackPane();
-        root.getStylesheets().add(STYLE_FILE);
-        root.getStyleClass().add("main-window");
         stage.setTitle(title);
         scene = new Scene(root, WIDTH, HEIGHT);
         stage.setScene(scene);
@@ -89,38 +87,20 @@ public class ScreensConfig implements Observer {
     }
 
     public void loadFirst() {
-        setNode(getNode(applicationContext.getBean(FirstControl.class), classLoader.getResource("views/First.fxml")));
+        setNode(getNode(firstControl, classLoader.getResource("views/First.fxml")));
     }
 
     public void loadSecond() {
-        setNode(getNode(applicationContext.getBean(SecondControl.class), classLoader.getResource("views/Second.fxml")));
+        setNode(getNode(secondControl, classLoader.getResource("views/Second.fxml")));
     }
 
     public void loadPopup() {
-        showPopup(applicationContext.getBean(PopupControl.class), classLoader.getResource("views/Popup.fxml"));
+        showPopup(popupControl, classLoader.getResource("views/Popup.fxml"));
     }
 
-    @Bean
-    @Scope("prototype")
-    FirstControl firstPresentation() {
-        return new FirstControl();
-    }
-
-    @Bean
-    @Scope("prototype")
-    SecondControl secondPresentation() {
-        return new SecondControl();
-    }
-
-    @Bean
-    @Scope("prototype")
-    PopupControl popupPresentation() {
-        return new PopupControl();
-    }
-
-    private Node getNode(final Control control, URL location) {
+    private Node getNode(final Controller controller, URL location) {
         FXMLLoader loader = new FXMLLoader(location, lang.getBundle());
-        loader.setControllerFactory(aClass -> control);
+        loader.setControllerFactory(aClass -> controller);
 
         try {
             return loader.load();
@@ -130,7 +110,7 @@ public class ScreensConfig implements Observer {
         }
     }
 
-    private void showPopup(final PopupControl control, URL location) {
+    private void showPopup(final PopupController control, URL location) {
         FXMLLoader loader = new FXMLLoader(location, lang.getBundle());
         loader.setControllerFactory(aClass -> control);
 
@@ -148,7 +128,6 @@ public class ScreensConfig implements Observer {
             log.error("unable to load fxml", e);
             return;
         }
-        scene.getStylesheets().add(STYLE_FILE);
 
         popupStage.setScene(scene);
         popupStage.show();

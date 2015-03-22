@@ -1,4 +1,4 @@
-package net.devops.javafxspring.gui.controls;
+package net.devops.javafxspring.gui.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,18 +7,19 @@ import javafx.scene.control.ToggleGroup;
 import lombok.extern.slf4j.Slf4j;
 import net.devops.javafxspring.common.model.User;
 import net.devops.javafxspring.gui.config.ScreensConfig;
-import net.devops.javafxspring.gui.controller.LanguageController;
-import net.devops.javafxspring.gui.model.LanguageModel.Language;
+import net.devops.javafxspring.gui.viewmodel.LanguageViewModel.Language;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.client.AsyncRestTemplate;
 
 @Slf4j
-public class FirstControl implements Control {
+@Component
+public class FirstController implements Controller {
 
     @Autowired
-    private ScreensConfig config;
+    private ScreensConfig screensConfig;
 
     @Autowired
     private LanguageController langCtr;
@@ -44,7 +45,7 @@ public class FirstControl implements Control {
             log.error("error getting users", ex);
         });
 
-        config.loadSecond();
+        screensConfig.loadSecond();
     }
 
     @FXML
