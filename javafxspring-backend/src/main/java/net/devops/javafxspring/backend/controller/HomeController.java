@@ -2,8 +2,10 @@ package net.devops.javafxspring.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import net.devops.javafxspring.backend.model.User;
+import net.devops.javafxspring.common.model.User;
 import net.devops.javafxspring.backend.repository.UsersRepository;
+import net.devops.javafxspring.backend.util.HtmlUtil;
+import net.devops.javafxspring.common.util.ReflectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,29 +53,17 @@ public class HomeController {
     public ResponseEntity userListHtml() throws Exception {
         List<User> userList = usersRepository.findAll();
 
-        List<Method> setters = Arrays.stream(User.class.getMethods())
-                .filter(method -> method.getName().startsWith("get") && !method.getName().startsWith("getClass"))
-                .collect(Collectors.toList());
+        List<Method> getters = ReflectionUtil.getGetters(User.class);
 
-        String header = setters.stream()
-                .map(method -> "<th>" + method.getName().substring(3) + "</th>")
+        String header = getters.stream()
+                .map(method -> "<th>" + HtmlUtil.htmlEscapeNullSafe(method.getName().substring(3)) + "</th>")
                 .collect(Collectors.joining());
 
         String collect = userList.stream()
-                .map(user -> setters.stream()
-                                .map(method -> {
-                                            Object invoke = null;
-                                            try {
-                                                invoke = method.invoke(user);
-                                            } catch (IllegalAccessException | InvocationTargetException e) {
-                                                log.error("error", e);
-                                            }
-                                            return invoke;
-                                        }
-                                )
-                                .map(o -> "<td>" + o + "</td>")
-                                .collect(Collectors.joining())
-                )
+                .map(user -> getters.stream()
+                        .map(method -> ReflectionUtil.invokeMethodSafe(method, user))
+                        .map(o -> "<td>" + HtmlUtil.htmlEscapeNullSafe(o) + "</td>")
+                        .collect(Collectors.joining()))
                 .map(s -> "<tr>" + s + "</tr>")
                 .collect(Collectors.joining());
 

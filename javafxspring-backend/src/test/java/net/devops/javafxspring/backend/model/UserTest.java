@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
 import lombok.extern.slf4j.Slf4j;
+import net.devops.javafxspring.common.model.User;
 import org.junit.Before;
 import org.junit.Test;
 

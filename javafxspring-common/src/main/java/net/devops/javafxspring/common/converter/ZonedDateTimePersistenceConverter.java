@@ -1,4 +1,4 @@
-package net.devops.javafxspring.backend.converter;
+package net.devops.javafxspring.common.converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
