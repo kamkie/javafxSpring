@@ -2,9 +2,9 @@ package net.devops.javafxspring.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import net.devops.javafxspring.common.model.User;
 import net.devops.javafxspring.backend.repository.UsersRepository;
 import net.devops.javafxspring.backend.util.HtmlUtil;
+import net.devops.javafxspring.common.model.User;
 import net.devops.javafxspring.common.util.ReflectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +29,7 @@ public class HomeController {
     @Autowired
     private UsersRepository usersRepository;
 
-    private final List<Method> getters = ReflectionUtil.getGetters(User.class);
+    private final List<Field> fields = ReflectionUtil.getFields(User.class);
 
     @RequestMapping(method = RequestMethod.GET, value = "/hello")
     public ResponseEntity<String> home() {
@@ -55,13 +55,13 @@ public class HomeController {
     public ResponseEntity userListHtml() throws Exception {
         List<User> userList = usersRepository.findAll();
 
-        String header = getters.stream()
-                .map(method -> "<th>" + HtmlUtil.htmlEscapeNullSafe(method.getName().substring(3)) + "</th>")
+        String header = fields.stream()
+                .map(field -> "<th>" + HtmlUtil.htmlEscapeNullSafe(field.getName()) + "</th>")
                 .collect(Collectors.joining());
 
         String collect = userList.stream()
-                .map(user -> getters.stream()
-                        .map(method -> ReflectionUtil.invokeMethodSafe(method, user))
+                .map(user -> fields.stream()
+                        .map(field -> ReflectionUtil.getFieldValueSafe(field, user))
                         .map(o -> "<td>" + HtmlUtil.htmlEscapeNullSafe(o) + "</td>")
                         .collect(Collectors.joining()))
                 .map(s -> "<tr>" + s + "</tr>")
