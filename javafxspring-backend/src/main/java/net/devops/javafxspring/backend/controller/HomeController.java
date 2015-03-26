@@ -29,6 +29,8 @@ public class HomeController {
     @Autowired
     private UsersRepository usersRepository;
 
+    private final List<Method> getters = ReflectionUtil.getGetters(User.class);
+
     @RequestMapping(method = RequestMethod.GET, value = "/hello")
     public ResponseEntity<String> home() {
         return ResponseEntity.ok("hello word");
@@ -52,8 +54,6 @@ public class HomeController {
     @RequestMapping(method = RequestMethod.GET, value = "/userListHtml", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity userListHtml() throws Exception {
         List<User> userList = usersRepository.findAll();
-
-        List<Method> getters = ReflectionUtil.getGetters(User.class);
 
         String header = getters.stream()
                 .map(method -> "<th>" + HtmlUtil.htmlEscapeNullSafe(method.getName().substring(3)) + "</th>")
