@@ -26,6 +26,8 @@ public class HomeController {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     ObjectMapper objectMapper;
 
+    private final static String stylePadding = " style=\"padding: 10px;\"";
+
     @Autowired
     private UsersRepository usersRepository;
 
@@ -56,18 +58,18 @@ public class HomeController {
         List<User> userList = usersRepository.findAll();
 
         String header = fields.stream()
-                .map(field -> "<th>" + HtmlUtil.htmlEscapeNullSafe(field.getName()) + "</th>")
+                .map(field -> "<th" + stylePadding + ">" + HtmlUtil.htmlEscapeNullSafe(field.getName()) + "</th>")
                 .collect(Collectors.joining());
 
         String collect = userList.stream()
                 .map(user -> fields.stream()
                         .map(field -> ReflectionUtil.getFieldValueSafe(field, user))
-                        .map(o -> "<td>" + HtmlUtil.htmlEscapeNullSafe(o) + "</td>")
+                        .map(o -> "<td" + stylePadding + ">" + HtmlUtil.htmlEscapeNullSafe(o) + "</td>")
                         .collect(Collectors.joining()))
                 .map(s -> "<tr>" + s + "</tr>")
                 .collect(Collectors.joining());
 
-        return ResponseEntity.ok("<table>" + "<tr>" + header + "</tr>" + collect + "</table>");
+        return ResponseEntity.ok("<!DOCTYPE html><body><table border=\"1\" style=\"\">" + "<tr>" + header + "</tr>" + collect + "</table></body>");
     }
 
 }
