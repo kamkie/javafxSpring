@@ -21,6 +21,10 @@ public class ReflectionUtil {
 
     public static List<Field> getFields(Class clazz) {
         return Arrays.stream(clazz.getDeclaredFields())
+                .map(field -> {
+                    field.setAccessible(true);
+                    return field;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -37,7 +41,6 @@ public class ReflectionUtil {
     public static Object getFieldValueSafe(Field field, Object o) {
         Object invokeResult = null;
         try {
-            field.setAccessible(true);
             invokeResult = field.get(o);
         } catch (IllegalAccessException e) {
             log.error("error", e);
