@@ -2,6 +2,7 @@ package net.devops.javafxspring.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import net.devops.javafxspring.backend.annotation.Loggable;
 import net.devops.javafxspring.backend.repository.UsersRepository;
 import net.devops.javafxspring.backend.util.HtmlUtil;
 import net.devops.javafxspring.common.model.User;
@@ -33,11 +34,13 @@ public class HomeController {
 
     private final List<Field> fields = ReflectionUtil.getFields(User.class);
 
+    @Loggable
     @RequestMapping(method = RequestMethod.GET, value = "/hello")
     public ResponseEntity<String> home() {
         return ResponseEntity.ok("hello word");
     }
 
+    @Loggable
     @RequestMapping(method = RequestMethod.GET, value = "/user")
     public ResponseEntity<User> user() {
         return ResponseEntity.ok(User.builder()
@@ -48,6 +51,7 @@ public class HomeController {
                 .build());
     }
 
+    @Loggable
     @RequestMapping(method = RequestMethod.GET, value = "/userList")
     public ResponseEntity<List<User>> userList() {
         return ResponseEntity.ok(usersRepository.findAll());
