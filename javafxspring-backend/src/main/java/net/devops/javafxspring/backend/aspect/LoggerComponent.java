@@ -1,5 +1,6 @@
 package net.devops.javafxspring.backend.aspect;
 
+import net.devops.javafxspring.common.util.LongStringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -22,9 +23,10 @@ public class LoggerComponent {
         long elapsedNanoseconds = System.nanoTime() - nanoTime;
         long elapsedMicroseconds = elapsedNanoseconds / 1000;
         LoggerFactory.getLogger(declaringType).info(
-                "{}({}) in {}ms {}us {}ns",
+                "{}({}): {} in {}ms {}us {}ns",
                 signature.getName(),
                 point.getArgs(),
+                LongStringUtils.formatLongString(result),
                 elapsedMilliseconds,
                 elapsedMicroseconds,
                 elapsedNanoseconds

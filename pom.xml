@@ -25,12 +25,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <spring.boot.version>1.2.2.RELEASE</spring.boot.version>
+        <spring.boot.version>1.2.3.RELEASE</spring.boot.version>
         <spring.loaded.version>1.2.1.RELEASE</spring.loaded.version>
         <lombok.version>1.16.2</lombok.version>
         <rest-assured.version>2.4.0</rest-assured.version>
         <groovy-eclipse-compiler.version>2.9.1-01</groovy-eclipse-compiler.version>
         <groovy-eclipse-batch.version>2.3.7-01</groovy-eclipse-batch.version>
+        <commons-lang3.version>3.3.2</commons-lang3.version>
     </properties>
 
     <dependencies>
@@ -77,6 +78,12 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
 
             <dependency>

@@ -57,6 +57,7 @@ public class HomeController {
         return ResponseEntity.ok(usersRepository.findAll());
     }
 
+    @Loggable
     @RequestMapping(method = RequestMethod.GET, value = "/userListHtml", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity userListHtml() throws Exception {
         List<User> userList = usersRepository.findAll();
