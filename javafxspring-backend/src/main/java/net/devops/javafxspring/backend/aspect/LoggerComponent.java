@@ -5,10 +5,10 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 @Aspect
-@Configuration
+@Component
 public class LoggerComponent {
 
     @Around("execution(* *(..)) && @annotation(net.devops.javafxspring.backend.annotation.Loggable)")
