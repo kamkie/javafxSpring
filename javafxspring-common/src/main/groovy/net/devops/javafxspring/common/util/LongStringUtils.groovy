@@ -1,5 +1,9 @@
 package net.devops.javafxspring.common.util
 
+import groovy.transform.CompileStatic
+
+
+@CompileStatic
 class LongStringUtils {
 
     public static final int MAX_CHARS = 60;

@@ -26,7 +26,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <spring.boot.version>1.2.3.RELEASE</spring.boot.version>
-        <spring.loaded.version>1.2.1.RELEASE</spring.loaded.version>
+        <spring.loaded.version>1.2.3.RELEASE</spring.loaded.version>
         <lombok.version>1.16.2</lombok.version>
         <rest-assured.version>2.4.0</rest-assured.version>
         <groovy-eclipse-compiler.version>2.9.1-01</groovy-eclipse-compiler.version>
@@ -208,5 +208,19 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <url>http://repo.spring.io/libs-milestone/</url>
+        </repository>
+        <repository>
+            <id>springframework-releases</id>
+            <url>http://maven.springframework.org/release/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
 
 </project>
