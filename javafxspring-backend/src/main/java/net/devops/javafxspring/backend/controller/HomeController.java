@@ -8,12 +8,15 @@ import net.devops.javafxspring.backend.util.HtmlUtil;
 import net.devops.javafxspring.common.model.User;
 import net.devops.javafxspring.common.util.ReflectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,6 +58,29 @@ public class HomeController {
     @RequestMapping(method = RequestMethod.GET, value = "/userList")
     public ResponseEntity<List<User>> userList() {
         return ResponseEntity.ok(usersRepository.findAll());
+    }
+
+    @Loggable
+    @RequestMapping(method = RequestMethod.GET, value = "/text")
+    public void text(HttpServletResponse response) throws Exception {
+        response.setHeader(HttpHeaders.CONTENT_TYPE, "text/event-stream");
+        PrintWriter writer = response.getWriter();
+        for (int i = 0; i < 1000; i++) {
+            log.info("loop: {}", i);
+            writer.write("--------------------------------------------------------------------------------------------------------------------------------------\n");
+            writer.write("--------------------------------------------------------------------------------------------------------------------------------------\n");
+            writer.write("--------------------------------------------------------------------------------------------------------------------------------------\n");
+            writer.write("--------------------------------------------------------------------------------------------------------------------------------------\n");
+            writer.write("--------------------------------------------------------------------------------------------------------------------------------------\n");
+            writer.write("--------------------------------------------------------------------------------------------------------------------------------------\n");
+            writer.write(i + "\n");
+            writer.flush();
+            if (writer.checkError()) {
+                writer.close();
+                return;
+            }
+            Thread.sleep(1000);
+        }
     }
 
     @Loggable
